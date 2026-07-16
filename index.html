@@ -8,7 +8,7 @@
       name="description"
       content="Quick Runs Cayman provides concierge errands, delivery, transport, and event assistance across Grand Cayman."
     ><meta name="google-site-verification" content="z-0MN674t9d0SyAkPrxjMmZtFxKUJJ2hU_azUDq0yYA" />
-        <link rel="canonical" href="https://quickruns.ky/" />
+        <link rel="canonical" href="https://quickruns.ky/" /><script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"Quick Runs Cayman","image":"https://quickruns.ky/favicon.png","url":"https://quickruns.ky/","telephone":"+13453274460","email":"info@quickruns.ky","address":{"@type":"PostalAddress","streetAddress":"Cardinal Plaza, Cardinal Avenue","addressLocality":"George Town","addressRegion":"Grand Cayman","addressCountry":"KY"},"areaServed":"Grand Cayman","priceRange":"$$"}</script><script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How long does a work permit application take in Cayman?","acceptedAnswer":{"@type":"Answer","text":"Processing times vary by job category, employer, and current government caseload, and can range from several weeks to a few months. We help make sure your application is complete and accurate the first time, which is one of the biggest factors in avoiding delays."}},{"@type":"Question","name":"Can I get groceries delivered to Seven Mile Beach or other areas of Grand Cayman?","acceptedAnswer":{"@type":"Answer","text":"Yes. We handle grocery errands and deliveries island-wide, including Seven Mile Beach, West Bay, George Town, Bodden Town, East End, and North Side. Send your list and location on WhatsApp and we will confirm timing."}},{"@type":"Question","name":"What areas of Grand Cayman do you serve?","acceptedAnswer":{"@type":"Answer","text":"We cover the whole island, from West Bay to East End, including George Town, Bodden Town, and North Side."}},{"@type":"Question","name":"How do I book a Quick Run?","acceptedAnswer":{"@type":"Answer","text":"Send us a message on WhatsApp with what you need, or use the request form on this page. We confirm the details and get started, usually within minutes."}},{"@type":"Question","name":"Do you help with business licensing and immigration paperwork?","acceptedAnswer":{"@type":"Answer","text":"Yes. Our admin services team prepares and submits work permit applications and renewals, trade and business licensing, and general immigration paperwork on your behalf."}},{"@type":"Question","name":"What documents do I need for a work permit or immigration application?","acceptedAnswer":{"@type":"Answer","text":"Requirements vary by application type, but commonly include a valid passport, job offer or contract, employer information, and supporting government forms. We will tell you exactly what is needed for your specific application before you submit anything."}},{"@type":"Question","name":"Is Quick Runs Cayman affiliated with the Cayman Islands Government?","acceptedAnswer":{"@type":"Answer","text":"No. Quick Runs Cayman is an independent, privately owned concierge and admin services company. We assist with preparing and submitting paperwork on your behalf, but all decisions are made by the relevant government department."}}]}</script>
     <title>Quick Runs Cayman | Concierge, Errands, Delivery & Transport</title>
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1368,7 +1368,7 @@ textarea {
     .strip-grid { grid-template-columns: 1fr; }
   }
 
-</style>
+.faq-list { display: grid; gap: 0.8rem; max-width: 820px; margin: 0 auto; }.faq-item { padding: 1rem 1.25rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--white); }.faq-item summary { cursor: pointer; font-weight: 900; list-style: none; }.faq-item summary::-webkit-details-marker { display: none; }.faq-item summary::after { content: "+"; float: right; color: var(--red); font-weight: 900; }.faq-item[open] summary::after { content: "−"; }.faq-item p { margin: 0.75rem 0 0; color: var(--muted); }</style>
   </head>
   <body>
     <a class="skip-link" href="#booking">Skip to booking</a>
@@ -1388,6 +1388,7 @@ textarea {
           <a href="#how">How it works</a>
           <a href="#areas">Areas</a>
           <a href="#admin-services">Admin Services</a>
+<a href="#faq">FAQ</a>
           <a class="nav-cta" href="https://api.whatsapp.com/send?phone=13453274460&text=Hi%2C%20I%27d%20like%20to%20book%20a%20Quick%20Run.">Book</a>
         </div>
       </nav>
@@ -1574,42 +1575,18 @@ textarea {
         </div>
       </section>
 
-      <section class="section reviews" id="reviews">
-        <div class="container reviews-wrap">
-          <div class="section-heading align-left reveal">
-            <span class="eyebrow">Reviews</span>
-            <h2>Share your Quick Runs experience.</h2>
-            <p>Leave a rating and a short note about the service you received.</p>
-          </div>
-          <form class="review-form reveal" data-review-form>
-            <label>
-              Your name
-              <input name="reviewer" type="text" autocomplete="name" placeholder="Your name" required>
-            </label>
-            <fieldset class="rating-field">
-              <legend>Your rating</legend>
-              <div class="rating-buttons" data-rating-buttons>
-                <button type="button" data-rating="1" aria-label="1 star">★</button>
-                <button type="button" data-rating="2" aria-label="2 stars">★</button>
-                <button type="button" data-rating="3" aria-label="3 stars">★</button>
-                <button type="button" data-rating="4" aria-label="4 stars">★</button>
-                <button type="button" data-rating="5" aria-label="5 stars">★</button>
-              </div>
-              <input name="rating" type="hidden" value="5">
-            </fieldset>
-            <label>
-              Review
-              <textarea name="review" rows="4" placeholder="Fast, reliable, and easy to book..." required></textarea>
-            </label>
-            <button class="btn btn-primary btn-full" type="submit">Leave Review</button>
-            <p class="form-note">Reviews appear on this device for preview. Connect a review platform when the site goes live.</p>
-          </form>
-          <div class="review-preview reveal" data-review-preview aria-live="polite">
-            <strong>Latest review</strong>
-            <p>No new review yet.</p>
-          </div>
-        </div>
-      </section>
+      <section class="section faq" id="faq"><div class="container"><div class="section-heading reveal"><span class="eyebrow">FAQ</span><h2>Frequently asked questions</h2><p>Quick answers about admin services, deliveries, and booking a run.</p></div><div class="faq-list"><details class="faq-item reveal"><summary>How long does a work permit application take in Cayman?</summary><p>Processing times vary by job category, employer, and current government caseload, and can range from several weeks to a few months. We help make sure your application is complete and accurate the first time, which is one of the biggest factors in avoiding delays.</p></details><details class="faq-item reveal"><summary>Can I get groceries delivered to Seven Mile Beach or other areas of Grand Cayman?</summary><p>Yes. We handle grocery errands and deliveries island-wide, including Seven Mile Beach, West Bay, George Town, Bodden Town, East End, and North Side. Send your list and location on WhatsApp and we will confirm timing.</p></details><details class="faq-item reveal"><summary>What areas of Grand Cayman do you serve?</summary><p>We cover the whole island, from West Bay to East End, including George Town, Bodden Town, and North Side.</p></details><details class="faq-item reveal"><summary>How do I book a Quick Run?</summary><p>Send us a message on WhatsApp with what you need, or use the request form on this page. We confirm the details and get started, usually within minutes.</p></details><details class="faq-item reveal"><summary>Do you help with business licensing and immigration paperwork?</summary><p>Yes. Our admin services team prepares and submits work permit applications and renewals, trade and business licensing, and general immigration paperwork on your behalf.</p></details><details class="faq-item reveal"><summary>What documents do I need for a work permit or immigration application?</summary><p>Requirements vary by application type, but commonly include a valid passport, job offer or contract, employer information, and supporting government forms. We will tell you exactly what is needed for your specific application before you submit anything.</p></details><details class="faq-item reveal"><summary>Is Quick Runs Cayman affiliated with the Cayman Islands Government?</summary><p>No. Quick Runs Cayman is an independent, privately owned concierge and admin services company. We assist with preparing and submitting paperwork on your behalf, but all decisions are made by the relevant government department.</p></details></div></div></section><section class="section reviews" id="reviews">
+<div class="container">
+<div class="section-heading reveal">
+<span class="eyebrow">Reviews</span>
+<h2>Verified reviews, coming soon.</h2>
+<p>We're setting up our Google Business Profile so you can read verified reviews from real customers. In the meantime, feel free to reach out directly for references.</p>
+</div>
+<div style="text-align:center;">
+<a class="btn btn-primary" href="https://api.whatsapp.com/send?phone=13453274460&text=Hi%2C%20I%27d%20like%20to%20ask%20about%20Quick%20Runs%20Cayman%20references.">Ask us for references</a>
+</div>
+</div>
+</section>
 
       
 <section class="page-hero">
@@ -1740,7 +1717,7 @@ textarea {
             <div class="contact-stack">
               <a class="btn btn-primary btn-large" href="https://api.whatsapp.com/send?phone=13453274460&text=Hi%2C%20I%27d%20like%20to%20book%20a%20Quick%20Run.">Book via WhatsApp</a>
               <a href="tel:+13453274460">+1 (345) 327-4460</a>
-              <a href="mailto:info@quickruns.ky">info@quickruns.ky</a>
+              <a href="mailto:info@quickruns.ky">info@quickruns.ky</a><span style="display:block;color:rgba(255,255,255,0.86);font-weight:800;">Cardinal Plaza, Cardinal Avenue, George Town, Grand Cayman</span>
               <a href="https://www.instagram.com/quickrunsky/" target="_blank" rel="noopener">@quickrunsky</a>
             </div>
           </div>
@@ -1787,7 +1764,7 @@ textarea {
         <a class="brand" href="#top" aria-label="Quick Runs Cayman home">
           <img class="brand-logo" src="data:image/png;base64,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" alt="Quick Runs Cayman">
         </a>
-        <p>Reliable - Fast - Local</p>
+        <p>Reliable - Fast - Local</p><p>Cardinal Plaza, Cardinal Avenue, George Town, Grand Cayman, Cayman Islands</p><p><a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms of Service</a></p>
         <a class="footer-social" href="https://www.instagram.com/quickrunsky/" target="_blank" rel="noopener">Instagram @quickrunsky</a>
       </div>
     </footer>
@@ -1801,9 +1778,6 @@ const header = document.querySelector("[data-header]");
 const toggle = document.querySelector("[data-nav-toggle]");
 const navLinks = document.querySelector("[data-nav-links]");
 const requestForm = document.querySelector("[data-request-form]");
-const reviewForm = document.querySelector("[data-review-form]");
-const ratingButtons = document.querySelectorAll("[data-rating]");
-const reviewPreview = document.querySelector("[data-review-preview]");
 const whatsAppBase = "https://api.whatsapp.com/send";
 
 function setHeaderState() {
@@ -1866,47 +1840,6 @@ requestForm.addEventListener("submit", (event) => {
   window.location.href = `${whatsAppBase}?phone=13453274460&text=${encodeURIComponent(message)}`;
 });
 
-function setRating(rating) {
-  ratingButtons.forEach((button) => {
-    const value = Number(button.dataset.rating);
-    button.classList.toggle("is-active", value <= rating);
-  });
-  reviewForm.rating.value = String(rating);
-}
-
-setRating(5);
-
-ratingButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    setRating(Number(button.dataset.rating));
-  });
-});
-
-reviewForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const data = new FormData(reviewForm);
-  const reviewer = data.get("reviewer")?.toString().trim();
-  const rating = Number(data.get("rating") || 5);
-  const review = data.get("review")?.toString().trim();
-  const stars = "★".repeat(rating) + "☆".repeat(5 - rating);
-
-  reviewPreview.replaceChildren();
-  const title = document.createElement("strong");
-  const starLine = document.createElement("p");
-  const reviewLine = document.createElement("p");
-  const reviewerLine = document.createElement("p");
-
-  title.textContent = "Latest review";
-  starLine.textContent = stars;
-  reviewLine.textContent = `"${review}"`;
-  reviewerLine.textContent = `- ${reviewer}`;
-
-  reviewPreview.append(title, starLine, reviewLine, reviewerLine);
-
-  reviewForm.reset();
-  setRating(5);
-});
-
-    </script>
+</script>
   </body>
 </html>
