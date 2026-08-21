@@ -323,6 +323,43 @@
     display: block;
   }
 
+  /* BACK LINK */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 9px 16px;
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 999px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    position: relative;
+    transition: background .2s, border-color .2s;
+  }
+  .back-link:hover { background: #F1120B; border-color: #F1120B; }
+  .back-link-bottom {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 12px 24px;
+    border: 2px solid #fff;
+    border-radius: 999px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: background .2s, color .2s;
+  }
+  .back-link-bottom:hover { background: #fff; color: #08090B; }
+
   /* RESPONSIVE */
   @media (max-width: 700px) {
     .tiers { grid-template-columns: 1fr; }
@@ -332,6 +369,7 @@
     .section { padding: 30px 20px; }
     .hero { padding: 30px 20px 40px; }
     .comparison-table { font-size: 11px; }
+    .back-link { font-size: 12px; padding: 8px 14px; }
     .comparison-table th, .comparison-table td { padding: 8px 6px; }
     .vs-grid { grid-template-columns: 1fr; }
   }
@@ -339,6 +377,7 @@
   @media print {
     body { padding: 0; background: white; }
     .page { box-shadow: none; }
+    .back-link, .back-link-bottom { display: none; }
   }
 </style>
 </head>
@@ -348,6 +387,7 @@
 
   <!-- HERO -->
   <div class="hero">
+    <a class="back-link" href="index.html">&#8592; Back to main page</a>
     <div class="brand">QUICK <span>RUNS</span></div>
     <div class="tagline">Island Courier Route Membership</div>
     <div class="hero-title">Unlimited island-wide delivery.<br><span>One monthly rate.</span></div>
@@ -612,6 +652,7 @@
       <div>🌐 quickruns.ky</div>
       <div>📸 @quickrunsky</div>
     </div>
+    <a class="back-link-bottom" href="index.html">&#8592; Back to main page</a>
   </div>
 
   <!-- FOOTER -->
