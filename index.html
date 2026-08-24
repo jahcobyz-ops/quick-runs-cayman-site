@@ -1389,7 +1389,59 @@ textarea {
 .plan-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.7rem; margin-top: 1.5rem; }
 .plan-actions .btn-outline { color: var(--ink); background: var(--white); border: 1px solid var(--line); }
 .plan-actions .btn-outline:hover { border-color: var(--red); color: var(--red); }
-@media (max-width: 860px) { .plan-grid { grid-template-columns: 1fr; } .plan-tag { min-height: 0; } .team-hero-grid { grid-template-columns: 1fr; gap: 1.2rem; } .team-hero { padding: 1.6rem 1.25rem 1.3rem; } .team-hero-price b { font-size: 2.8rem; } }</style>
+@media (max-width: 860px) { .plan-grid { grid-template-columns: 1fr; } .plan-tag { min-height: 0; } .team-hero-grid { grid-template-columns: 1fr; gap: 1.2rem; } .team-hero { padding: 1.6rem 1.25rem 1.3rem; } .team-hero-price b { font-size: 2.8rem; } }
+/* ========= MOBILE REFINEMENTS ========= */
+@media (max-width: 560px) {
+  /* Tighter vertical rhythm — the page ran ~19 screens tall on a phone */
+  .section { padding: 40px 0; }
+  h1 { font-size: clamp(2.4rem, 10.5vw, 3.4rem); }
+  h2 { font-size: clamp(1.85rem, 8vw, 2.6rem); }
+  h3 { font-size: 1.18rem; }
+  .hero-kicker { font-size: 0.85rem !important; }
+  .hero-copy p { margin-top: 1rem; font-size: 1rem; }
+  .hero-grid { gap: 1.4rem; padding: 34px 0 30px; }
+  .section-heading { margin-bottom: 1.4rem; }
+  .section-heading p { font-size: 1rem; }
+  .service-card { padding: 1rem; }
+  .service-card p { font-size: 0.95rem; }
+  .step { min-height: 0; padding: 1.1rem; }
+  .brochure-panel { padding: 1.1rem; }
+  .brochure-panel h2 { margin-top: 1.1rem; }
+  .faq-item { padding: 0.9rem 1rem; }
+  .review-form, .review-preview { padding: 0.9rem; }
+  .footer { padding: 22px 0; }
+  .plan-card { padding: 1.25rem 1.1rem; }
+  .plan-card h3 { font-size: 1.45rem; }
+  .plan-tag { margin-bottom: 0.8rem; }
+  .plan-list li { padding: 0.45rem 0 0.45rem 1.45rem; }
+  .team-hero { margin-bottom: 1.4rem; padding: 1.3rem 1.1rem 1.1rem; }
+  .team-hero h3 { font-size: 1.75rem; }
+  .team-hero-price b { font-size: 2.4rem; }
+  .team-hero-list li { padding: 0.4rem 0 0.4rem 1.45rem; }
+  .team-hero-foot { margin-top: 1rem; padding-top: 0.9rem; }
+
+  /* Nothing below 12px on a phone screen */
+  .team-hero-from,
+  .plan-switch { font-size: 0.78rem; }
+
+  /* 44px minimum tap targets (footer, legal and inline contact links) */
+  .footer-inner { gap: 0.5rem; }
+  .footer p a,
+  .footer-social,
+  .instagram-card a,
+  .contact-stack a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Keep the floating WhatsApp button from sitting on top of copy */
+  .floating-whatsapp { right: 14px; bottom: 14px; width: 54px; height: 54px; }
+  .floating-whatsapp svg { width: 26px; height: 26px; }
+  .response-pill { padding-right: 72px; }
+  body { padding-bottom: 72px; }
+}
+</style>
   </head>
   <body>
     <a class="skip-link" href="#booking">Skip to booking</a>

@@ -294,6 +294,10 @@
   }
 
   /* COMPARISON */
+  .table-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
   .comparison-table {
     width: 100%;
     border-collapse: collapse;
@@ -451,10 +455,48 @@
     .brand { font-size: 28px; }
     .section { padding: 30px 20px; }
     .hero { padding: 30px 20px 40px; }
-    .comparison-table { font-size: 11px; }
-    .back-link { font-size: 12px; padding: 8px 14px; }
-    .comparison-table th, .comparison-table td { padding: 8px 6px; }
-    .vs-grid { grid-template-columns: 1fr; }
+    .comparison-table th, .comparison-table td { padding: 10px 8px; }
+
+    /* Stack the "vs" comparison — the .value-box descendant selector below
+       is what actually wins, the bare .vs-grid rule was being overridden. */
+    .vs-grid,
+    .value-box .vs-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    /* Stacked layout: keep "VS" as a plain centred divider.
+       Rotating it made its painted box overflow 290px vertically. */
+    .vs-divider {
+      text-align: center;
+      font-size: 18px;
+      letter-spacing: 2px;
+      opacity: 0.85;
+    }
+
+    /* Readable minimum type on phones */
+    body { padding: 12px; }
+    .value-box { padding: 22px 18px; }
+    .tagline { font-size: 13px; }
+    .why-item .why-label { font-size: 12px; }
+    .section-title { font-size: 13px; }
+    .team-hero-from { font-size: 12px; }
+    .team-hero-sub { font-size: 14px; }
+    .tiers-label { font-size: 12px; }
+    .tier-tag { font-size: 13px; }
+    .vs-col-label { font-size: 12px; }
+    .footer { font-size: 13px; }
+    .footer .tag { font-size: 13px; }
+    .comparison-table { font-size: 13px; }
+
+    /* 44px minimum tap targets */
+    .back-link,
+    .back-link-bottom {
+      font-size: 13px;
+      padding: 12px 18px;
+      min-height: 44px;
+      display: inline-flex;
+      align-items: center;
+    }
   }
 
   @media print {
@@ -636,6 +678,7 @@
     <div class="section-title">Feature Comparison</div>
     <div class="section-heading">Every plan, side by side.</div>
 
+    <div class="table-scroll">
     <table class="comparison-table">
       <thead>
         <tr>
@@ -732,6 +775,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
   </div>
 
   <!-- CTA -->
