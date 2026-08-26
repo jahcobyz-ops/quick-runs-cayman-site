@@ -269,29 +269,88 @@
   }
   .tier-features li {
     font-size: 13px;
-    padding: 8px 0;
+    line-height: 1.5;
+    padding: 8px 0 8px 20px;
     border-top: 1px solid #f0f0f0;
-    display: flex;
-    align-items: flex-start;
+    position: relative;
   }
   .tier-features li::before {
     content: '✓';
+    position: absolute;
+    left: 0;
+    top: 8px;
     color: #F1120B;
     font-weight: 900;
-    margin-right: 8px;
-    flex-shrink: 0;
   }
   .tier-features li.highlight {
     background: #fff5f5;
     margin: 0 -12px;
-    padding: 10px 12px;
+    padding: 10px 12px 10px 32px;
     border-radius: 8px;
     font-weight: 700;
     border-top: none;
   }
   .tier-features li.highlight::before {
     content: '⚡';
+    left: 12px;
+    top: 10px;
   }
+
+
+  /* FOUNDING MEMBER OFFER */
+  .founder-banner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+    background: #08090B;
+    color: #fff;
+    border: 2px solid #F1120B;
+    border-radius: 16px;
+    padding: 22px 26px;
+    margin-bottom: 22px;
+    box-shadow: 0 14px 40px rgba(241,18,11,0.18);
+  }
+  .founder-banner-kicker {
+    font-size: 11px; font-weight: 800; letter-spacing: 2.5px;
+    text-transform: uppercase; color: #F1120B; margin-bottom: 8px;
+  }
+  .founder-banner-title { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; line-height: 1.2; }
+  .founder-banner-title span { color: #F1120B; }
+  .founder-banner-sub { margin-top: 8px; font-size: 13px; color: rgba(255,255,255,0.72); max-width: 52ch; line-height: 1.5; }
+  .founder-counter { text-align: center; min-width: 132px; }
+  .founder-counter-num {
+    font-size: 52px; font-weight: 900; line-height: 1; color: #fff; letter-spacing: -2px;
+    font-variant-numeric: tabular-nums;
+  }
+  .founder-counter-label {
+    font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: rgba(255,255,255,0.65); margin-top: 6px;
+  }
+  .founder-counter-bar {
+    margin-top: 10px; height: 6px; border-radius: 999px;
+    background: rgba(255,255,255,0.15); overflow: hidden;
+  }
+  .founder-counter-bar span {
+    display: block; height: 100%; width: 100%; background: #F1120B;
+    border-radius: 999px; transition: width 1s ease;
+  }
+  .founder-counter.is-closed .founder-counter-num { font-size: 26px; letter-spacing: -0.5px; }
+
+  .tier-founder {
+    margin: -12px 0 18px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fff5f5;
+    border: 1px dashed #F1120B;
+  }
+  .tier-founder-label {
+    display: block; font-size: 9px; font-weight: 800; letter-spacing: 0.8px;
+    white-space: nowrap; text-transform: uppercase; color: #F1120B; margin-bottom: 3px;
+  }
+  .tier-founder-price { font-size: 19px; font-weight: 900; color: #08090B; letter-spacing: -0.5px; }
+  .tier-founder-price small { font-size: 12px; font-weight: 700; color: #666; letter-spacing: 0; }
+  .tier-founder-was { font-size: 12px; color: #888; text-decoration: line-through; margin-left: 6px; font-weight: 700; }
 
   /* COMPARISON */
   .table-scroll {
@@ -447,6 +506,8 @@
   /* RESPONSIVE */
   @media (max-width: 700px) {
     .tiers { grid-template-columns: 1fr; }
+    .founder-banner { grid-template-columns: 1fr; text-align: center; gap: 16px; padding: 20px; }
+    .founder-banner-sub { margin-left: auto; margin-right: auto; }
     .team-hero-grid { grid-template-columns: 1fr; gap: 18px; }
     .team-hero { padding: 26px 20px 22px; }
     .team-hero-amount { font-size: 44px; }
@@ -545,6 +606,20 @@
   <div class="section">
     <div class="section-title">Membership Plans</div>
 
+    <!-- FOUNDING MEMBER OFFER -->
+    <div class="founder-banner" id="founderBanner">
+      <div>
+        <div class="founder-banner-kicker">Founding Member Offer</div>
+        <div class="founder-banner-title">The first 10 members get <span>10% off</span> any tier they choose.</div>
+        <div class="founder-banner-sub">Basic, Standard, Premium or a Corporate quote &mdash; your founding rate stays locked in for as long as your membership stays active.</div>
+      </div>
+      <div class="founder-counter" id="founderCounter">
+        <div class="founder-counter-num" id="founderSpots">10</div>
+        <div class="founder-counter-label" id="founderSpotsLabel">Spots Left</div>
+        <div class="founder-counter-bar"><span id="founderBar"></span></div>
+      </div>
+    </div>
+
     <!-- CORPORATE PLAN — FLAGSHIP -->
     <div class="team-hero">
       <div class="team-hero-grid">
@@ -556,7 +631,7 @@
             <span class="team-hero-currency">CI$</span><span class="team-hero-amount">599</span>
             <span class="team-hero-period">/ month</span>
           </div>
-          <div class="team-hero-sub">Let us know your team size so we can provide you a quote.</div>
+          <div class="team-hero-sub">Let us know your team size so we can provide you a quote. <strong style="color:#F1120B;">Founding members get 10% off the quoted rate.</strong></div>
         </div>
         <ul class="team-hero-features">
           <li><strong>Unlimited</strong> deliveries for the whole team — scheduled, same-day, or urgent</li>
@@ -587,9 +662,14 @@
           <span class="tier-amount">179<sup style="font-size: 0.4em;">.99</sup></span>
         </div>
         <div class="tier-period">per month</div>
+        <div class="tier-founder">
+          <span class="tier-founder-label">Founding member &middot; 10% off</span>
+          <span class="tier-founder-price">CI$161.99<small>/mo</small></span>
+          <span class="tier-founder-was">CI$179.99</span>
+        </div>
         <ul class="tier-features">
-          <li><strong style="margin-right: 4px;">Unlimited</strong> deliveries</li>
-          <li><strong style="margin-right: 4px;">24-hour</strong> advance booking</li>
+          <li><strong>Unlimited</strong> deliveries</li>
+          <li><strong>24-hour</strong> advance booking</li>
           <li>Any package size, anywhere on island</li>
           <li>Mon–Sat coverage</li>
           <li>WhatsApp booking + photo confirmation</li>
@@ -599,7 +679,7 @@
       </div>
 
       <!-- STANDARD (FEATURED) -->
-      <div class="tier">
+      <div class="tier featured">
         <div class="tier-medal">🥈</div>
         <div class="tier-name">STANDARD</div>
         <div class="tier-tag">The everyday professional's pass — same-day flexibility.</div>
@@ -608,8 +688,13 @@
           <span class="tier-amount">269<sup style="font-size: 0.4em;">.99</sup></span>
         </div>
         <div class="tier-period">per month</div>
+        <div class="tier-founder">
+          <span class="tier-founder-label">Founding member &middot; 10% off</span>
+          <span class="tier-founder-price">CI$242.99<small>/mo</small></span>
+          <span class="tier-founder-was">CI$269.99</span>
+        </div>
         <ul class="tier-features">
-          <li><strong style="margin-right: 4px;">Unlimited</strong> deliveries</li>
+          <li><strong>Unlimited</strong> deliveries</li>
           <li class="highlight"><strong>Same-day pickup</strong> (by 10am/1pm)</li>
           <li>Guaranteed slots · priority queue</li>
           <li>Photo + signature confirmation</li>
@@ -630,8 +715,13 @@
           <span class="tier-amount">399<sup style="font-size: 0.4em;">.99</sup></span>
         </div>
         <div class="tier-period">per month</div>
+        <div class="tier-founder">
+          <span class="tier-founder-label">Founding member &middot; 10% off</span>
+          <span class="tier-founder-price">CI$359.99<small>/mo</small></span>
+          <span class="tier-founder-was">CI$399.99</span>
+        </div>
         <ul class="tier-features">
-          <li><strong style="margin-right: 4px;">Unlimited</strong> deliveries — scheduled, same-day, or urgent</li>
+          <li><strong>Unlimited</strong> deliveries — scheduled, same-day, or urgent</li>
           <li class="highlight"><strong>1-hour response</strong> guaranteed</li>
           <li>Dedicated WhatsApp line</li>
           <li>Signature capture on every delivery</li>
@@ -825,5 +915,46 @@
 
 </div>
 
+
+<script>
+/* ------------------------------------------------------------------
+   FOUNDING MEMBER COUNTER
+   Update FOUNDER_SPOTS_TAKEN after each signup, then commit + push.
+   ------------------------------------------------------------------ */
+var FOUNDER_SPOTS_TOTAL = 10;
+var FOUNDER_SPOTS_TAKEN = 0;
+
+(function () {
+  var total = FOUNDER_SPOTS_TOTAL;
+  var left = Math.max(0, total - FOUNDER_SPOTS_TAKEN);
+  var num = document.getElementById('founderSpots');
+  var label = document.getElementById('founderSpotsLabel');
+  var bar = document.getElementById('founderBar');
+  var counter = document.getElementById('founderCounter');
+  if (!num) return;
+
+  if (left === 0) {
+    counter.classList.add('is-closed');
+    num.textContent = 'FULL';
+    label.textContent = 'Founding spots gone';
+    bar.style.width = '0%';
+    document.querySelectorAll('.tier-founder').forEach(function (el) { el.style.display = 'none'; });
+    return;
+  }
+
+  label.textContent = left === 1 ? 'Spot Left' : 'Spots Left';
+  bar.style.width = '100%';
+
+  var step = 0;
+  var timer = setInterval(function () {
+    step++;
+    num.textContent = Math.min(step, left);
+    if (step >= left) {
+      clearInterval(timer);
+      bar.style.width = (left / total * 100) + '%';
+    }
+  }, 90);
+})();
+</script>
 </body>
 </html>
