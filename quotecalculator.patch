@@ -1,0 +1,540 @@
+From 5baaebe96a9d3817c6660841ff13c6e9083812b5 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 27 Aug 2026 22:12:06 +0000
+Subject: [PATCH 1/2] Add instant quote calculator section to homepage
+
+---
+ index.html | 429 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 429 insertions(+)
+
+diff --git a/index.html b/index.html
+index 3a8ec2a..1ecb5e5 100644
+--- a/index.html
++++ b/index.html
+@@ -1458,6 +1458,192 @@ textarea {
+   .response-pill { padding-right: 72px; }
+   body { padding-bottom: 72px; }
+ }
++
++/* ============ QUOTE CALCULATOR ============ */
++.quote-shell {
++  border: 1px solid var(--line);
++  border-radius: 18px;
++  background: var(--white);
++  box-shadow: var(--shadow);
++  overflow: hidden;
++}
++.quote-currency {
++  display: flex;
++  justify-content: center;
++  margin-bottom: 26px;
++}
++.quote-currency .seg {
++  display: inline-flex;
++  gap: 4px;
++  padding: 4px;
++  border: 1px solid var(--line);
++  border-radius: 999px;
++  background: var(--soft);
++}
++.quote-currency button {
++  border: 0;
++  cursor: pointer;
++  border-radius: 999px;
++  padding: 8px 20px;
++  font: 800 0.78rem/1 "Inter", system-ui, sans-serif;
++  letter-spacing: 0.04em;
++  color: var(--muted);
++  background: transparent;
++  transition: background 160ms ease, color 160ms ease;
++}
++.quote-currency button[aria-pressed="true"] {
++  background: var(--red);
++  color: var(--white);
++}
++.quote-form {
++  padding: 28px;
++  display: grid;
++  gap: 26px;
++}
++.quote-field > .quote-label {
++  display: flex;
++  align-items: center;
++  gap: 0.5rem;
++  margin: 0 0 12px;
++  font: 800 0.95rem/1.2 "Inter", system-ui, sans-serif;
++  color: var(--black);
++}
++.quote-label svg { color: var(--red); fill: var(--red); }
++.quote-hint {
++  margin: 10px 0 0;
++  font-size: 0.8rem;
++  color: var(--muted);
++}
++.quote-slider-row {
++  display: flex;
++  align-items: center;
++  gap: 14px;
++}
++.quote-slider-row input[type="range"] {
++  flex: 1;
++  accent-color: var(--red);
++  height: 6px;
++  cursor: pointer;
++}
++.quote-readout {
++  min-width: 104px;
++  text-align: center;
++  padding: 8px 12px;
++  border: 1px solid var(--line);
++  border-radius: 10px;
++  background: var(--soft);
++  font-family: "Inter", system-ui, sans-serif;
++}
++.quote-readout strong {
++  font-size: 1.3rem;
++  font-weight: 900;
++  color: var(--red);
++}
++.quote-readout span { font-size: 0.75rem; color: var(--muted); margin-left: 4px; }
++.quote-options { display: grid; gap: 8px; }
++.quote-options.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
++.quote-options.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
++@media (min-width: 720px) {
++  .quote-options.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
++}
++.quote-opt {
++  text-align: left;
++  cursor: pointer;
++  padding: 12px 14px;
++  border: 1px solid var(--line);
++  border-radius: 12px;
++  background: var(--white);
++  color: var(--ink);
++  font-family: inherit;
++  transition: border-color 160ms ease, background 160ms ease, color 160ms ease;
++}
++.quote-opt:hover { border-color: rgba(241, 18, 11, 0.5); }
++.quote-opt b { display: block; font: 800 0.9rem/1.2 "Inter", system-ui, sans-serif; }
++.quote-opt small { display: block; margin-top: 3px; font-size: 0.75rem; color: var(--muted); }
++.quote-opt[aria-pressed="true"] {
++  background: var(--red);
++  border-color: var(--red);
++  color: var(--white);
++  box-shadow: 0 10px 24px rgba(241, 18, 11, 0.22);
++}
++.quote-opt[aria-pressed="true"] small { color: rgba(255, 255, 255, 0.85); }
++.quote-options.cols-3 .quote-opt { text-align: center; }
++.quote-stepper { display: flex; align-items: center; gap: 14px; }
++.quote-stepper button {
++  width: 48px;
++  height: 48px;
++  font-size: 1.5rem;
++  font-weight: 800;
++  line-height: 1;
++  cursor: pointer;
++  border: 1px solid var(--line);
++  border-radius: 12px;
++  background: var(--white);
++  color: var(--ink);
++  transition: border-color 160ms ease;
++}
++.quote-stepper button:hover { border-color: rgba(241, 18, 11, 0.5); }
++.quote-count { flex: 1; text-align: center; font-family: "Inter", system-ui, sans-serif; }
++.quote-count strong { font-size: 1.9rem; font-weight: 900; color: var(--red); }
++.quote-count span { margin-left: 6px; font-size: 0.85rem; color: var(--muted); }
++.quote-total {
++  padding: 30px 28px;
++  text-align: center;
++  color: var(--white);
++  background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
++}
++.quote-total .eyebrow { color: rgba(255, 255, 255, 0.85); }
++.quote-amount {
++  display: flex;
++  align-items: baseline;
++  justify-content: center;
++  gap: 8px;
++  margin: 8px 0 6px;
++  font-family: "Inter", system-ui, sans-serif;
++}
++.quote-amount .sym { font-size: 1.6rem; font-weight: 800; color: rgba(255, 255, 255, 0.85); }
++.quote-amount .val { font-size: clamp(3rem, 12vw, 4.4rem); font-weight: 900; letter-spacing: -0.03em; line-height: 1; }
++.quote-total p { margin: 0; font-size: 0.9rem; color: rgba(255, 255, 255, 0.9); }
++.quote-cta { padding: 24px 28px; border-top: 1px solid var(--line); }
++.quote-cta .btn { width: 100%; justify-content: center; }
++.quote-cta small { display: block; margin-top: 10px; text-align: center; font-size: 0.78rem; color: var(--muted); }
++.quote-upsell {
++  margin-top: 20px;
++  padding: 22px 24px;
++  border: 1px solid rgba(241, 18, 11, 0.32);
++  border-radius: 16px;
++  background: linear-gradient(135deg, rgba(241, 18, 11, 0.08), rgba(241, 18, 11, 0.02));
++}
++.quote-upsell[hidden] { display: none; }
++.quote-upsell b { font-family: "Inter", system-ui, sans-serif; }
++.quote-upsell p { margin: 6px 0 12px; font-size: 0.92rem; color: var(--ink); }
++.quote-upsell a { font-weight: 800; color: var(--red); }
++.quote-includes {
++  margin-top: 20px;
++  padding: 24px;
++  border: 1px solid var(--line);
++  border-radius: 16px;
++  background: var(--soft);
++}
++.quote-includes ul {
++  list-style: none;
++  margin: 14px 0 0;
++  padding: 0;
++  display: grid;
++  gap: 10px;
++}
++@media (min-width: 720px) {
++  .quote-includes ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
++}
++.quote-includes li {
++  display: flex;
++  align-items: flex-start;
++  gap: 8px;
++  font-size: 0.9rem;
++}
++.quote-includes li svg { flex: none; margin-top: 3px; color: var(--red); fill: var(--red); }
++.quote-disclaimer { margin-top: 16px; font-size: 0.78rem; color: var(--muted); text-align: center; }
++
+ </style>
+   </head>
+   <body>
+@@ -1477,6 +1663,7 @@ textarea {
+           <a href="#services">Services</a>
+           <a href="#how">How it works</a>
+           <a href="#areas">Areas</a>
++          <a href="#quote">Instant Quote</a>
+           <a href="#admin-services">Admin Services</a>
+ <a href="#faq">FAQ</a>
+           <a href="#membership">Membership</a>
+@@ -1811,6 +1998,107 @@ textarea {
+ 
+ 
+       <!-- MEMBERSHIP -->
++      <section class="section quote" id="quote">
++        <div class="container">
++          <div class="section-heading reveal">
++            <span class="eyebrow">Instant quote</span>
++            <h2>Price your delivery in seconds.</h2>
++            <p>Get a real-time estimate for a delivery anywhere on Grand Cayman. No hidden fees &mdash; just the price.</p>
++          </div>
++
++          <div class="quote-currency reveal">
++            <div class="seg" role="group" aria-label="Currency">
++              <button type="button" data-currency="KYD" aria-pressed="true">KYD (CI$)</button>
++              <button type="button" data-currency="USD" aria-pressed="false">USD ($)</button>
++            </div>
++          </div>
++
++          <div class="quote-shell reveal">
++            <div class="quote-form">
++              <div class="quote-field">
++                <p class="quote-label"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5Z"/></svg>How far is the delivery?</p>
++                <div class="quote-slider-row">
++                  <input type="range" id="quoteDistance" min="1" max="60" value="10" aria-label="Delivery distance in kilometres">
++                  <div class="quote-readout"><strong id="quoteDistanceOut">10</strong><span>km</span></div>
++                </div>
++                <p class="quote-hint">Distance from pickup to drop-off.</p>
++              </div>
++
++              <div class="quote-field">
++                <p class="quote-label"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2Zm0 2.2 7.4 3.7L12 11.6 4.6 7.9 12 4.2ZM4 9.6l7 3.5v6.6l-7-3.5V9.6Zm9 10.1v-6.6l7-3.5v6.6l-7 3.5Z"/></svg>What size is your package?</p>
++                <div class="quote-options cols-4" role="group" aria-label="Package size">
++                  <button type="button" class="quote-opt" data-size="small" aria-pressed="true"><b>Small</b><small>Under 5lbs</small></button>
++                  <button type="button" class="quote-opt" data-size="medium" aria-pressed="false"><b>Medium</b><small>5&ndash;25lbs</small></button>
++                  <button type="button" class="quote-opt" data-size="large" aria-pressed="false"><b>Large</b><small>25&ndash;50lbs</small></button>
++                  <button type="button" class="quote-opt" data-size="oversized" aria-pressed="false"><b>Oversized</b><small>50lbs+</small></button>
++                </div>
++              </div>
++
++              <div class="quote-field">
++                <p class="quote-label"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 10.6 4 2.3-1 1.7-5-2.9V6h2Z"/></svg>When do you need it?</p>
++                <div class="quote-options" role="group" aria-label="Urgency">
++                  <button type="button" class="quote-opt" data-urgency="nextday" aria-pressed="true"><b>Next Day</b><small>Book by 4pm, delivered tomorrow</small></button>
++                  <button type="button" class="quote-opt" data-urgency="sameday" aria-pressed="false"><b>Same Day</b><small>If a slot is available on today's route</small></button>
++                  <button type="button" class="quote-opt" data-urgency="rush" aria-pressed="false"><b>Rush</b><small>Off-route immediate &mdash; we drop everything</small></button>
++                </div>
++              </div>
++
++              <div class="quote-field">
++                <p class="quote-label"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M7 2v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v10H5V10h14Z"/></svg>Any special timing?</p>
++                <div class="quote-options cols-3" role="group" aria-label="Timing">
++                  <button type="button" class="quote-opt" data-time="standard" aria-pressed="true"><b>Standard</b><small>Mon&ndash;Sat 8&ndash;6</small></button>
++                  <button type="button" class="quote-opt" data-time="afterhours" aria-pressed="false"><b>After 6pm</b><small>Small surcharge</small></button>
++                  <button type="button" class="quote-opt" data-time="sunday" aria-pressed="false"><b>Sun/Holiday</b><small>Small surcharge</small></button>
++                </div>
++              </div>
++
++              <div class="quote-field">
++                <p class="quote-label"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2 2 7v10l10 5 10-5V7L12 2Zm0 2.2 7.4 3.7L12 11.6 4.6 7.9 12 4.2ZM4 9.6l7 3.5v6.6l-7-3.5V9.6Zm9 10.1v-6.6l7-3.5v6.6l-7 3.5Z"/></svg>How many packages to the same drop?</p>
++                <div class="quote-stepper">
++                  <button type="button" id="quoteMinus" aria-label="Remove one package">&minus;</button>
++                  <p class="quote-count"><strong id="quotePackages">1</strong><span id="quotePackagesLabel">package</span></p>
++                  <button type="button" id="quotePlus" aria-label="Add one package">+</button>
++                </div>
++              </div>
++            </div>
++
++            <div class="quote-total">
++              <span class="eyebrow">Your estimate</span>
++              <p class="quote-amount"><span class="sym" id="quoteSymbol">CI$</span><span class="val" id="quoteAmount">16</span></p>
++              <p id="quoteTotalNote">All-in price &mdash; no hidden fees</p>
++            </div>
++
++            <div class="quote-cta">
++              <a class="btn btn-primary" id="quoteBook" href="https://api.whatsapp.com/send?phone=13453274460" target="_blank" rel="noopener">
++                <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20.5 3.5A11.7 11.7 0 0 0 12.1 0 11.9 11.9 0 0 0 1.8 17.9L0 24l6.3-1.7A11.9 11.9 0 0 0 12.1 24h.1A11.9 11.9 0 0 0 20.5 3.5Zm-8.4 18.4h-.1a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12.1 21.9Zm5.4-7.3c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.1-.2.3-.8.9-1 1.1-.2.2-.4.2-.7.1a8 8 0 0 1-2.3-1.4 8.7 8.7 0 0 1-1.6-2c-.2-.3 0-.5.1-.7l.5-.6c.2-.2.2-.4.3-.6.1-.2 0-.4 0-.6-.1-.1-.7-1.6-1-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.9.4-.3.3-1.2 1.1-1.2 2.8 0 1.6 1.2 3.2 1.4 3.5.2.2 2.4 3.7 5.8 5.1.8.4 1.5.6 2 .7.8.3 1.6.2 2.2.1.7-.1 1.7-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.4Z"/></svg>
++                Book on WhatsApp
++              </a>
++              <small>Sends your quote details straight to us &mdash; we confirm within minutes.</small>
++            </div>
++          </div>
++
++          <div class="quote-upsell reveal" id="quoteUpsell" hidden>
++            <b>Sending deliveries often? Consider a membership.</b>
++            <p>At this rate, a weekly delivery works out to about <strong id="quoteMonthly">CI$64</strong> a month at one-off pricing. Our <strong>Basic plan at CI$179.99/month</strong> covers unlimited island-wide deliveries &mdash; it pays for itself around delivery #7.</p>
++            <a href="#membership">See membership plans &rarr;</a>
++          </div>
++
++          <div class="quote-includes reveal">
++            <span class="eyebrow">What&rsquo;s included in every delivery</span>
++            <ul>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>Island-wide coverage &mdash; anywhere on Grand Cayman</span></li>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>Delivery confirmation photo</span></li>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>WhatsApp booking &amp; updates</span></li>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>Bilingual service (English / Spanish)</span></li>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>Insured up to CI$500 per delivery</span></li>
++              <li><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm-1 14.4-4.2-4.2 1.4-1.4L11 13.6l5.8-5.8 1.4 1.4Z"/></svg><span>Cash, card, or bank transfer accepted</span></li>
++            </ul>
++          </div>
++
++          <p class="quote-disclaimer">Estimate only. Final pricing is confirmed on WhatsApp once we have the exact pickup and drop-off. USD shown at an indicative CI$1 = US$1.20.</p>
++        </div>
++      </section>
++
+       <section class="section plans" id="membership">
+         <div class="container">
+           <div class="section-heading reveal">
+@@ -2083,6 +2371,147 @@ const FOUNDER_SPOTS_TAKEN = 0;
+   }, 90);
+ })();
+ 
++
++/* ------------------------------------------------------------------
++   INSTANT QUOTE CALCULATOR
++   Base rates below are the only numbers you need to edit to reprice.
++   ------------------------------------------------------------------ */
++(function () {
++  const root = document.getElementById("quote");
++  if (!root) return;
++
++  const KYD_TO_USD = 1.2;
++  const BASE_FEE = 1;
++  const PER_KM = 1.5;
++  const SIZE_ADD = { small: 0, medium: 5, large: 10, oversized: 25 };
++  const URGENCY_MULT = { nextday: 1.0, sameday: 1.3, rush: 2.0 };
++  const TIME_ADD = { standard: 0, afterhours: 15, sunday: 25 };
++  const MEMBERSHIP_KYD = 179.99;
++
++  const state = {
++    currency: "KYD",
++    distance: 10,
++    size: "small",
++    urgency: "nextday",
++    time: "standard",
++    packages: 1
++  };
++
++  const el = {
++    distance: document.getElementById("quoteDistance"),
++    distanceOut: document.getElementById("quoteDistanceOut"),
++    packages: document.getElementById("quotePackages"),
++    packagesLabel: document.getElementById("quotePackagesLabel"),
++    symbol: document.getElementById("quoteSymbol"),
++    amount: document.getElementById("quoteAmount"),
++    totalNote: document.getElementById("quoteTotalNote"),
++    upsell: document.getElementById("quoteUpsell"),
++    monthly: document.getElementById("quoteMonthly"),
++    book: document.getElementById("quoteBook")
++  };
++
++  const URGENCY_TEXT = {
++    nextday: "Next-day scheduled",
++    sameday: "Same-day route",
++    rush: "Rush delivery"
++  };
++  const TIME_TEXT = { afterhours: "After-hours", sunday: "Sunday/holiday" };
++
++  function symbol() {
++    return state.currency === "USD" ? "$" : "CI$";
++  }
++
++  function money(kyd, decimals) {
++    const value = state.currency === "USD" ? kyd * KYD_TO_USD : kyd;
++    return value.toFixed(decimals === undefined ? 2 : decimals);
++  }
++
++  function pressGroup(attr, value) {
++    root.querySelectorAll("[data-" + attr + "]").forEach((btn) => {
++      btn.setAttribute("aria-pressed", String(btn.dataset[attr] === value));
++    });
++  }
++
++  function render() {
++    const perPackage =
++      (BASE_FEE + state.distance * PER_KM + SIZE_ADD[state.size]) *
++        URGENCY_MULT[state.urgency] +
++      TIME_ADD[state.time];
++    const totalKyd = Math.round(perPackage * state.packages);
++
++    el.distanceOut.textContent = state.distance;
++    el.packages.textContent = state.packages;
++    el.packagesLabel.textContent = state.packages === 1 ? "package" : "packages";
++    el.symbol.textContent = symbol();
++    el.amount.textContent = money(totalKyd, 0);
++    el.totalNote.textContent =
++      state.packages > 1
++        ? "Total for " + state.packages + " packages"
++        : "All-in price — no hidden fees";
++
++    const monthlyIfWeekly = totalKyd * 4;
++    const showUpsell = monthlyIfWeekly > MEMBERSHIP_KYD;
++    el.upsell.hidden = !showUpsell;
++    if (showUpsell) {
++      el.monthly.textContent = symbol() + money(monthlyIfWeekly, 0);
++    }
++
++    const lines = [
++      "Hi Quick Runs! I'd like to book a delivery.",
++      "",
++      state.packages +
++        (state.packages > 1 ? " packages" : " package") +
++        " · " +
++        state.distance +
++        "km",
++      "Size: " + state.size,
++      "Urgency: " + URGENCY_TEXT[state.urgency]
++    ];
++    if (state.time !== "standard") lines.push("Timing: " + TIME_TEXT[state.time]);
++    lines.push("Quote: " + symbol() + money(totalKyd, 2));
++    lines.push("");
++    lines.push("Ready to book — please advise on next steps.");
++
++    el.book.href =
++      "https://api.whatsapp.com/send?phone=13453274460&text=" +
++      encodeURIComponent(lines.join("\n"));
++  }
++
++  el.distance.addEventListener("input", () => {
++    state.distance = parseInt(el.distance.value, 10);
++    render();
++  });
++
++  root.querySelectorAll("[data-currency]").forEach((btn) => {
++    btn.addEventListener("click", () => {
++      state.currency = btn.dataset.currency;
++      pressGroup("currency", state.currency);
++      render();
++    });
++  });
++
++  ["size", "urgency", "time"].forEach((key) => {
++    root.querySelectorAll("[data-" + key + "]").forEach((btn) => {
++      btn.addEventListener("click", () => {
++        state[key] = btn.dataset[key];
++        pressGroup(key, state[key]);
++        render();
++      });
++    });
++  });
++
++  document.getElementById("quoteMinus").addEventListener("click", () => {
++    state.packages = Math.max(1, state.packages - 1);
++    render();
++  });
++  document.getElementById("quotePlus").addEventListener("click", () => {
++    state.packages = Math.min(50, state.packages + 1);
++    render();
++  });
++
++  render();
++})();
++
+ </script>
+   </body>
+ </html>
+-- 
+2.43.0
+
+
+From b2736c78281f744733cdd4fa57d5b4a7abebf239 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Thu, 27 Aug 2026 22:18:06 +0000
+Subject: [PATCH 2/2] Soften delivery #7 break-even claim; make calculator
+ break-even dynamic
+
+---
+ index.html   | 7 ++++++-
+ pricing.html | 4 ++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/index.html b/index.html
+index 1ecb5e5..5be93f0 100644
+--- a/index.html
++++ b/index.html
+@@ -2079,7 +2079,7 @@ textarea {
+ 
+           <div class="quote-upsell reveal" id="quoteUpsell" hidden>
+             <b>Sending deliveries often? Consider a membership.</b>
+-            <p>At this rate, a weekly delivery works out to about <strong id="quoteMonthly">CI$64</strong> a month at one-off pricing. Our <strong>Basic plan at CI$179.99/month</strong> covers unlimited island-wide deliveries &mdash; it pays for itself around delivery #7.</p>
++            <p>At this rate, a weekly delivery works out to about <strong id="quoteMonthly">CI$64</strong> a month at one-off pricing. Our <strong>Basic plan at CI$179.99/month</strong> covers unlimited island-wide deliveries &mdash; on a run priced like this one, that breaks even at roughly <strong id="quoteBreakeven">7</strong> <span id="quoteBreakevenLabel">deliveries</span> a month.</p>
+             <a href="#membership">See membership plans &rarr;</a>
+           </div>
+ 
+@@ -2407,6 +2407,8 @@ const FOUNDER_SPOTS_TAKEN = 0;
+     totalNote: document.getElementById("quoteTotalNote"),
+     upsell: document.getElementById("quoteUpsell"),
+     monthly: document.getElementById("quoteMonthly"),
++    breakeven: document.getElementById("quoteBreakeven"),
++    breakevenLabel: document.getElementById("quoteBreakevenLabel"),
+     book: document.getElementById("quoteBook")
+   };
+ 
+@@ -2454,6 +2456,9 @@ const FOUNDER_SPOTS_TAKEN = 0;
+     el.upsell.hidden = !showUpsell;
+     if (showUpsell) {
+       el.monthly.textContent = symbol() + money(monthlyIfWeekly, 0);
++      const breakeven = Math.ceil(MEMBERSHIP_KYD / totalKyd);
++      el.breakeven.textContent = breakeven;
++      el.breakevenLabel.textContent = breakeven === 1 ? "delivery" : "deliveries";
+     }
+ 
+     const lines = [
+diff --git a/pricing.html b/pricing.html
+index 199b928..a520108 100644
+--- a/pricing.html
++++ b/pricing.html
+@@ -780,13 +780,13 @@
+         <div class="vs-col winner">
+           <div class="vs-col-label">Quick Runs Basic</div>
+           <div class="vs-col-value">CI$179.99</div>
+-          <div class="vs-col-detail">Unlimited deliveries · pays for itself by delivery #7</div>
++          <div class="vs-col-detail">Unlimited deliveries · pays for itself in a typical busy month</div>
+         </div>
+       </div>
+     </div>
+ 
+     <p style="font-size: 15px; color: #444; line-height: 1.7; margin-top: 15px;">
+-      At typical Cayman one-off courier rates, just <strong>7 deliveries</strong> would already exceed the Basic membership. With unlimited deliveries included, every drop beyond that is pure savings — plus you get scheduled service, WhatsApp booking, delivery photos, and bilingual handling that per-drop competitors simply don't offer.
++      At typical Cayman one-off courier rates of around CI$29 a drop, about <strong>7 deliveries</strong> is all it takes to match the Basic membership. Shorter, standard-timing runs cost less per drop, so your own break-even depends on distance and urgency — use the <a href="index.html#quote" style="color:#F1120B;font-weight:700;">instant quote calculator</a> to see where yours lands. Either way, once you pass it every further delivery is free — plus you get scheduled service, WhatsApp booking, delivery photos, and bilingual handling that per-drop competitors simply don't offer.
+     </p>
+   </div>
+ 
+-- 
+2.43.0
+
