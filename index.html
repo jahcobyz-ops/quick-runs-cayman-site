@@ -1644,6 +1644,95 @@ textarea {
 .quote-includes li svg { flex: none; margin-top: 3px; color: var(--red); fill: var(--red); }
 .quote-disclaimer { margin-top: 16px; font-size: 0.78rem; color: var(--muted); text-align: center; }
 
+
+/* ============ CLIENT REVIEWS ============ */
+.reviews-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.6fr);
+  gap: 1rem;
+  align-items: start;
+}
+.review-cta {
+  position: sticky;
+  top: 96px;
+  padding: 1.5rem 1.35rem;
+  border-radius: var(--radius);
+  border: 2px solid var(--red);
+  background: var(--black);
+  color: var(--white);
+  box-shadow: 0 18px 50px rgba(241, 18, 11, 0.18);
+}
+.review-cta-stars { color: #ffc531; font-size: 1.3rem; letter-spacing: 0.15em; line-height: 1; }
+.review-cta h3 { margin: 0.85rem 0 0; color: var(--white); }
+.review-cta p { margin: 0.65rem 0 1.2rem; color: rgba(255, 255, 255, 0.78); font-size: 0.92rem; }
+.review-cta .btn { justify-content: center; }
+.review-cta-alt {
+  display: block;
+  margin-top: 0.9rem;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-decoration: underline;
+}
+.review-cta-alt:hover { color: var(--white); }
+.review-cta-alt[hidden] { display: none; }
+
+.review-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.review-card {
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+  box-shadow: 0 10px 30px rgba(8, 9, 11, 0.06);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.review-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.review-card-stars { color: #ffc531; font-size: 1rem; letter-spacing: 0.12em; line-height: 1; }
+.review-card-stars span { color: #d9dae0; }
+.review-card blockquote {
+  margin: 0.7rem 0 1rem;
+  font: 700 1.02rem/1.45 "Manrope", system-ui, sans-serif;
+  color: var(--ink);
+}
+.review-card figcaption { display: flex; align-items: center; gap: 0.7rem; }
+.review-avatar {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--white);
+  font: 900 0.95rem/1 "Inter", system-ui, sans-serif;
+}
+.review-who { display: grid; gap: 0.1rem; min-width: 0; }
+.review-who b { font: 900 0.92rem/1.2 "Inter", system-ui, sans-serif; color: var(--ink); }
+.review-who small { color: var(--muted); font-size: 0.8rem; }
+
+.review-empty {
+  grid-column: 1 / -1;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  background: var(--white);
+}
+.review-empty h3 { color: var(--ink); }
+.review-empty p { margin: 0.6rem auto 0; max-width: 42ch; color: var(--muted); font-size: 0.95rem; }
+
+@media (max-width: 880px) {
+  .reviews-layout { grid-template-columns: 1fr; }
+  .review-cta { position: static; }
+}
+@media (max-width: 560px) {
+  .review-grid { grid-template-columns: 1fr; }
+  .review-cta { padding: 1.2rem 1.1rem; }
+  .review-card { padding: 1.05rem; }
+}
+
 </style>
   </head>
   <body>
@@ -1665,6 +1754,7 @@ textarea {
           <a href="#areas">Areas</a>
           <a href="#quote">Instant Quote</a>
           <a href="#admin-services">Admin Services</a>
+<a href="#reviews">Reviews</a>
 <a href="#faq">FAQ</a>
           <a href="#membership">Membership</a>
           <a class="nav-cta" href="https://api.whatsapp.com/send?phone=13453274460&text=Hi%2C%20I%27d%20like%20to%20book%20a%20Quick%20Run.">Book</a>
@@ -1864,14 +1954,25 @@ textarea {
 
       <section class="section faq" id="faq"><div class="container"><div class="section-heading reveal"><span class="eyebrow">FAQ</span><h2>Frequently asked questions</h2><p>Quick answers about admin services, deliveries, and booking a run.</p></div><div class="faq-list"><details class="faq-item reveal"><summary>How long does a work permit application take in Cayman?</summary><p>Processing times vary by job category, employer, and current government caseload, and can range from several weeks to a few months. We help make sure your application is complete and accurate the first time, which is one of the biggest factors in avoiding delays.</p></details><details class="faq-item reveal"><summary>Can I get groceries delivered to Seven Mile Beach or other areas of Grand Cayman?</summary><p>Yes. We handle grocery errands and deliveries island-wide, including Seven Mile Beach, West Bay, George Town, Bodden Town, East End, and North Side. Send your list and location on WhatsApp and we will confirm timing.</p></details><details class="faq-item reveal"><summary>What areas of Grand Cayman do you serve?</summary><p>We cover the whole island, from West Bay to East End, including George Town, Bodden Town, and North Side.</p></details><details class="faq-item reveal"><summary>How do I book a Quick Run?</summary><p>Send us a message on WhatsApp with what you need, or use the request form on this page. We confirm the details and get started, usually within minutes.</p></details><details class="faq-item reveal"><summary>Do you help with business licensing and immigration paperwork?</summary><p>Yes. Our admin services team prepares and submits work permit applications and renewals, trade and business licensing, and general immigration paperwork on your behalf.</p></details><details class="faq-item reveal"><summary>What documents do I need for a work permit or immigration application?</summary><p>Requirements vary by application type, but commonly include a valid passport, job offer or contract, employer information, and supporting government forms. We will tell you exactly what is needed for your specific application before you submit anything.</p></details><details class="faq-item reveal"><summary>Is Quick Runs Cayman affiliated with the Cayman Islands Government?</summary><p>No. Quick Runs Cayman is an independent, privately owned concierge and admin services company. We assist with preparing and submitting paperwork on your behalf, but all decisions are made by the relevant government department.</p></details></div></div></section><section class="section reviews" id="reviews">
 <div class="container">
-<div class="section-heading reveal">
-<span class="eyebrow">Reviews</span>
-<h2>Verified reviews, coming soon.</h2>
-<p>We're setting up our Google Business Profile so you can read verified reviews from real customers. In the meantime, feel free to reach out directly for references.</p>
-</div>
-<div style="text-align:center;">
-<a class="btn btn-primary" href="https://api.whatsapp.com/send?phone=13453274460&text=Hi%2C%20I%27d%20like%20to%20ask%20about%20Quick%20Runs%20Cayman%20references.">Ask us for references</a>
-</div>
+  <div class="section-heading reveal">
+    <span class="eyebrow">Reviews</span>
+    <h2>What our clients say.</h2>
+    <p>Every review below is from a real Quick Runs Cayman client. Used us? Tell people how it went &mdash; it takes about thirty seconds.</p>
+  </div>
+
+  <div class="reviews-layout">
+    <!-- Google review CTA -->
+    <aside class="review-cta reveal">
+      <div class="review-cta-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+      <h3>Leave us a review</h3>
+      <p>Reviews on Google help other people on the island find us, and they help us get better. If we did right by you, we would really appreciate it.</p>
+      <a class="btn btn-primary btn-full" id="googleReviewBtn" href="#" target="_blank" rel="noopener">Write a Google review</a>
+      <a class="review-cta-alt" id="reviewWhatsappBtn" href="https://api.whatsapp.com/send?phone=13453274460&amp;text=Hi%20Quick%20Runs%2C%20I%27d%20like%20to%20leave%20a%20review%3A%20">Rather send it on WhatsApp?</a>
+    </aside>
+
+    <!-- Review cards render here from the list in the script below -->
+    <div class="review-grid" id="reviewGrid"></div>
+  </div>
 </div>
 </section>
 
@@ -2518,5 +2619,89 @@ const FOUNDER_SPOTS_TAKEN = 0;
 })();
 
 </script>
-  </body>
+  
+<script>
+/* ===================== CLIENT REVIEWS =====================
+   1. PASTE YOUR GOOGLE REVIEW LINK BELOW.
+      Google Business Profile > Read reviews > Get more reviews > copy link.
+      It looks like: https://g.page/r/XXXXXXXXXXXX/review
+      Leave it as "" and the button quietly falls back to WhatsApp.
+
+   2. ADD REVIEWS to the REVIEWS list below as clients leave them.
+      Only add reviews people actually gave you.
+      stars: 1-5   |   note: service + area, or leave it out.
+=========================================================== */
+var GOOGLE_REVIEW_URL = "";
+
+var REVIEWS = [
+  // { name: "Sarah M.", stars: 5, note: "Grocery run, Seven Mile Beach",
+  //   text: "Ordered at 9am and everything was at my door by 11. Easiest thing I have done all week." },
+];
+
+(function () {
+  var waHref = "https://api.whatsapp.com/send?phone=13453274460&text=" +
+    encodeURIComponent("Hi Quick Runs, I'd like to leave a review: ");
+
+  var btn = document.getElementById("googleReviewBtn");
+  var alt = document.getElementById("reviewWhatsappBtn");
+  if (btn) {
+    if (GOOGLE_REVIEW_URL) {
+      btn.href = GOOGLE_REVIEW_URL;
+    } else {
+      btn.href = waHref;
+      btn.textContent = "Send us a review on WhatsApp";
+      btn.removeAttribute("target");
+      if (alt) alt.hidden = true;
+    }
+  }
+  if (alt) alt.href = waHref;
+
+  var grid = document.getElementById("reviewGrid");
+  if (!grid) return;
+
+  if (!REVIEWS.length) {
+    grid.innerHTML =
+      '<div class="review-empty">' +
+        '<h3>No reviews posted yet</h3>' +
+        '<p>We are just getting our review page started. If we have run for you before, you would be the first &mdash; and we would be grateful for it.</p>' +
+      '</div>';
+    return;
+  }
+
+  function esc(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function starRow(n) {
+    var full = "\u2605".repeat(n);
+    var dim = n < 5 ? '<span>' + "\u2605".repeat(5 - n) + '</span>' : "";
+    return '<div class="review-card-stars" aria-label="Rated ' + n + ' out of 5">' + full + dim + '</div>';
+  }
+
+  grid.innerHTML = REVIEWS.map(function (r) {
+    var n = Math.max(0, Math.min(5, Number(r.stars) || 5));
+    var initial = esc((r.name || "?").trim().charAt(0).toUpperCase());
+    return '<figure class="review-card reveal">' +
+        starRow(n) +
+        '<blockquote>' + esc(r.text) + '</blockquote>' +
+        '<figcaption>' +
+          '<span class="review-avatar" aria-hidden="true">' + initial + '</span>' +
+          '<span class="review-who">' +
+            '<b>' + esc(r.name) + '</b>' +
+            (r.note ? '<small>' + esc(r.note) + '</small>' : '') +
+          '</span>' +
+        '</figcaption>' +
+      '</figure>';
+  }).join("");
+
+  // Let the existing reveal-on-scroll observer pick up the new cards
+  document.querySelectorAll("#reviewGrid .reveal").forEach(function (el) {
+    el.classList.add("is-visible");
+  });
+})();
+</script>
+
+</body>
 </html>
