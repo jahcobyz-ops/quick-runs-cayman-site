@@ -1725,13 +1725,70 @@ textarea {
 
 @media (max-width: 880px) {
   .reviews-layout { grid-template-columns: 1fr; }
-  .review-cta { position: static; }
+  .review-cta { position: static; order: 2; }
+  .review-grid { order: 1; }
 }
 @media (max-width: 560px) {
   .review-grid { grid-template-columns: 1fr; }
   .review-cta { padding: 1.2rem 1.1rem; }
   .review-card { padding: 1.05rem; }
 }
+
+
+/* ---- reviews: form + summary ---- */
+.review-cta-lead { margin: 0.5rem 0 1.1rem; }
+.review-summary {
+  display: grid; justify-items: start; gap: 0.25rem;
+  margin: 0 0 1.25rem; padding-bottom: 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.review-summary[hidden] { display: none; }
+.review-summary-score {
+  display: flex; align-items: baseline; gap: 0.3rem;
+  font-family: "Barlow Condensed", "Inter", system-ui, sans-serif;
+}
+.review-summary-score b { font-size: 3rem; font-weight: 900; line-height: 1; color: var(--white); }
+.review-summary-score i { font-style: normal; font-size: 1rem; font-weight: 900; color: rgba(255, 255, 255, 0.6); }
+.review-summary p { margin: 0.25rem 0 0; color: rgba(255, 255, 255, 0.7); font-size: 0.85rem; }
+
+.review-cta .review-form {
+  display: grid; gap: 0.85rem; padding: 0;
+  border: 0; background: none; box-shadow: none;
+}
+.review-cta .review-form label { color: rgba(255, 255, 255, 0.9); font-size: 0.85rem; }
+.review-cta .review-form input,
+.review-cta .review-form select,
+.review-cta .review-form textarea {
+  min-height: 48px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+.review-cta .review-form textarea { min-height: 96px; }
+.review-cta .review-form ::placeholder { color: rgba(255, 255, 255, 0.45); }
+.review-cta .review-form select option { color: var(--ink); background: var(--white); }
+.review-cta .review-form input:focus-visible,
+.review-cta .review-form select:focus-visible,
+.review-cta .review-form textarea:focus-visible {
+  outline: 2px solid var(--red); outline-offset: 1px;
+}
+.review-cta .rating-field legend { color: var(--white); font-size: 0.85rem; }
+.review-cta .rating-buttons button {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.35);
+}
+.review-cta .rating-buttons button.is-active {
+  color: #ffc531; border-color: rgba(255, 197, 49, 0.6);
+}
+.review-cta .form-note { margin-top: 0.15rem; color: rgba(255, 255, 255, 0.6); text-align: left; }
+.review-cta .form-note.is-error { color: #ff9a95; font-weight: 800; }
+.review-cta .form-note.is-success { color: #6ef29a; font-weight: 800; }
+.review-cta .btn[disabled] { opacity: 0.55; cursor: not-allowed; transform: none; }
+.review-trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.review-thanks { padding: 1rem 0 0; }
+.review-thanks h3 { color: var(--white); }
+.review-thanks p { color: rgba(255, 255, 255, 0.78); font-size: 0.92rem; }
 
 </style>
   </head>
@@ -1957,21 +2014,74 @@ textarea {
   <div class="section-heading reveal">
     <span class="eyebrow">Reviews</span>
     <h2>What our clients say.</h2>
-    <p>Every review below is from a real Quick Runs Cayman client. Used us? Tell people how it went &mdash; it takes about thirty seconds.</p>
+    <p>Every review here was submitted by a real client and checked by us before it went up. Used us? Tell people how it went.</p>
   </div>
 
   <div class="reviews-layout">
-    <!-- Google review CTA -->
+
     <aside class="review-cta reveal">
-      <div class="review-cta-stars" aria-hidden="true">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-      <h3>Leave us a review</h3>
-      <p>Reviews on Google help other people on the island find us, and they help us get better. If we did right by you, we would really appreciate it.</p>
-      <a class="btn btn-primary btn-full" id="googleReviewBtn" href="#" target="_blank" rel="noopener">Write a Google review</a>
-      <a class="review-cta-alt" id="reviewWhatsappBtn" href="https://api.whatsapp.com/send?phone=13453274460&amp;text=Hi%20Quick%20Runs%2C%20I%27d%20like%20to%20leave%20a%20review%3A%20">Rather send it on WhatsApp?</a>
+      <div class="review-summary" id="reviewSummary" hidden>
+        <div class="review-summary-score"><b id="reviewAvg">&mdash;</b><i>/ 5</i></div>
+        <div class="review-cta-stars" id="reviewAvgStars" aria-hidden="true"></div>
+        <p id="reviewCount"></p>
+      </div>
+
+      <h3>Leave a review</h3>
+      <p class="review-cta-lead">Takes about thirty seconds. We read every one before it goes on the site.</p>
+
+      <form class="review-form" id="reviewForm" novalidate>
+        <fieldset class="rating-field">
+          <legend>Your rating</legend>
+          <div class="rating-buttons" id="ratingButtons" role="radiogroup" aria-label="Your rating">
+            <button type="button" data-star="1" role="radio" aria-checked="false" aria-label="1 star">&#9733;</button>
+            <button type="button" data-star="2" role="radio" aria-checked="false" aria-label="2 stars">&#9733;</button>
+            <button type="button" data-star="3" role="radio" aria-checked="false" aria-label="3 stars">&#9733;</button>
+            <button type="button" data-star="4" role="radio" aria-checked="false" aria-label="4 stars">&#9733;</button>
+            <button type="button" data-star="5" role="radio" aria-checked="false" aria-label="5 stars">&#9733;</button>
+          </div>
+        </fieldset>
+
+        <label>Your name
+          <input type="text" id="reviewName" name="name" maxlength="60" autocomplete="name"
+                 placeholder="First name and last initial is fine" required>
+        </label>
+
+        <label>What did we do for you?
+          <select id="reviewService" name="service" required>
+            <option value="">Choose one</option>
+            <option>Grocery run</option>
+            <option>Transport</option>
+            <option>Airport pickup or drop-off</option>
+            <option>Admin / work permit</option>
+            <option>Bill payments</option>
+            <option>Delivery</option>
+            <option>Other</option>
+          </select>
+        </label>
+
+        <label>Your review
+          <textarea id="reviewBody" name="body" rows="4" maxlength="800" minlength="10"
+                    placeholder="How did it go? What stood out?" required></textarea>
+        </label>
+
+        <!-- Bot trap. Real people never see or fill this. -->
+        <div class="review-trap" aria-hidden="true">
+          <label>Company<input type="text" id="reviewTrap" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <button class="btn btn-primary btn-full" type="submit" id="reviewSubmit">Submit review</button>
+        <p class="form-note" id="reviewStatus" role="status" aria-live="polite">
+          Your review is checked by us before it appears. We only publish your name, rating and comment.
+        </p>
+      </form>
+
+      <a class="review-cta-alt" id="googleReviewBtn" href="#" target="_blank" rel="noopener" hidden>Prefer to review us on Google?</a>
     </aside>
 
-    <!-- Review cards render here from the list in the script below -->
-    <div class="review-grid" id="reviewGrid"></div>
+    <div class="review-grid" id="reviewGrid" aria-live="polite">
+      <div class="review-empty"><p>Loading reviews&hellip;</p></div>
+    </div>
+
   </div>
 </div>
 </section>
@@ -2621,84 +2731,189 @@ const FOUNDER_SPOTS_TAKEN = 0;
 </script>
   
 <script>
-/* ===================== CLIENT REVIEWS =====================
-   1. PASTE YOUR GOOGLE REVIEW LINK BELOW.
-      Google Business Profile > Read reviews > Get more reviews > copy link.
-      It looks like: https://g.page/r/XXXXXXXXXXXX/review
-      Leave it as "" and the button quietly falls back to WhatsApp.
+/* ===================== CLIENT REVIEWS (Supabase) =====================
+   Reviews are stored in Supabase. A submitted review is saved with
+   approved = false and is INVISIBLE on the site until you approve it.
 
-   2. ADD REVIEWS to the REVIEWS list below as clients leave them.
-      Only add reviews people actually gave you.
-      stars: 1-5   |   note: service + area, or leave it out.
-=========================================================== */
+   TO APPROVE A REVIEW:
+     supabase.com > quickruns-site > Table Editor > reviews
+     tick the "approved" box on the row, it appears on the site on next load.
+
+   The key below is the PUBLIC key. It is safe in this file: the database
+   only ever lets the public read approved rows and insert unapproved ones.
+
+   OPTIONAL: paste your Google review link to show a "review us on Google"
+   link under the form. Leave "" to hide it.
+======================================================================= */
+var SUPABASE_URL  = "https://itydidwaebcjzckmawvs.supabase.co";
+var SUPABASE_KEY  = "sb_publishable_kIpZpGnleETWFfgC2hGN0g_rbZlHWSo";
 var GOOGLE_REVIEW_URL = "";
 
-var REVIEWS = [
-  // { name: "Sarah M.", stars: 5, note: "Grocery run, Seven Mile Beach",
-  //   text: "Ordered at 9am and everything was at my door by 11. Easiest thing I have done all week." },
-];
-
 (function () {
-  var waHref = "https://api.whatsapp.com/send?phone=13453274460&text=" +
-    encodeURIComponent("Hi Quick Runs, I'd like to leave a review: ");
+  var REST = SUPABASE_URL + "/rest/v1/reviews";
+  var HEAD = { apikey: SUPABASE_KEY, Authorization: "Bearer " + SUPABASE_KEY };
 
-  var btn = document.getElementById("googleReviewBtn");
-  var alt = document.getElementById("reviewWhatsappBtn");
-  if (btn) {
-    if (GOOGLE_REVIEW_URL) {
-      btn.href = GOOGLE_REVIEW_URL;
-    } else {
-      btn.href = waHref;
-      btn.textContent = "Send us a review on WhatsApp";
-      btn.removeAttribute("target");
-      if (alt) alt.hidden = true;
-    }
-  }
-  if (alt) alt.href = waHref;
+  var grid    = document.getElementById("reviewGrid");
+  var form    = document.getElementById("reviewForm");
+  var status  = document.getElementById("reviewStatus");
+  var submit  = document.getElementById("reviewSubmit");
+  var gbtn    = document.getElementById("googleReviewBtn");
+  var rating  = 0;
+  var openedAt = Date.now();
 
-  var grid = document.getElementById("reviewGrid");
-  if (!grid) return;
+  if (gbtn && GOOGLE_REVIEW_URL) { gbtn.href = GOOGLE_REVIEW_URL; gbtn.hidden = false; }
 
-  if (!REVIEWS.length) {
-    grid.innerHTML =
-      '<div class="review-empty">' +
-        '<h3>No reviews posted yet</h3>' +
-        '<p>We are just getting our review page started. If we have run for you before, you would be the first &mdash; and we would be grateful for it.</p>' +
-      '</div>';
-    return;
-  }
-
-  function esc(s) {
-    return String(s == null ? "" : s)
-      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;");
+  function esc(v) {
+    return String(v == null ? "" : v)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   }
 
   function starRow(n) {
-    var full = "\u2605".repeat(n);
-    var dim = n < 5 ? '<span>' + "\u2605".repeat(5 - n) + '</span>' : "";
-    return '<div class="review-card-stars" aria-label="Rated ' + n + ' out of 5">' + full + dim + '</div>';
+    n = Math.max(1, Math.min(5, Number(n) || 5));
+    var dim = n < 5 ? '<span>' + "\u2605".repeat(5 - n) + "</span>" : "";
+    return '<div class="review-card-stars" aria-label="Rated ' + n + ' out of 5">' +
+      "\u2605".repeat(n) + dim + "</div>";
   }
 
-  grid.innerHTML = REVIEWS.map(function (r) {
-    var n = Math.max(0, Math.min(5, Number(r.stars) || 5));
-    var initial = esc((r.name || "?").trim().charAt(0).toUpperCase());
-    return '<figure class="review-card reveal">' +
-        starRow(n) +
-        '<blockquote>' + esc(r.text) + '</blockquote>' +
-        '<figcaption>' +
-          '<span class="review-avatar" aria-hidden="true">' + initial + '</span>' +
-          '<span class="review-who">' +
-            '<b>' + esc(r.name) + '</b>' +
-            (r.note ? '<small>' + esc(r.note) + '</small>' : '') +
-          '</span>' +
-        '</figcaption>' +
-      '</figure>';
-  }).join("");
+  /* ---------- rating picker ---------- */
+  var starBtns = Array.prototype.slice.call(
+    document.querySelectorAll("#ratingButtons button")
+  );
+  function paint(n) {
+    starBtns.forEach(function (b) {
+      var on = Number(b.dataset.star) <= n;
+      b.classList.toggle("is-active", on);
+      b.setAttribute("aria-checked", Number(b.dataset.star) === n ? "true" : "false");
+    });
+  }
+  starBtns.forEach(function (b) {
+    b.addEventListener("click", function () { rating = Number(b.dataset.star); paint(rating); });
+    b.addEventListener("mouseenter", function () { paint(Number(b.dataset.star)); });
+  });
+  var rWrap = document.getElementById("ratingButtons");
+  if (rWrap) rWrap.addEventListener("mouseleave", function () { paint(rating); });
 
-  // Let the existing reveal-on-scroll observer pick up the new cards
-  document.querySelectorAll("#reviewGrid .reveal").forEach(function (el) {
-    el.classList.add("is-visible");
+  /* ---------- load approved reviews ---------- */
+  function render(rows) {
+    if (!rows.length) {
+      grid.innerHTML =
+        '<div class="review-empty">' +
+          "<h3>No reviews posted yet</h3>" +
+          "<p>We are just getting started. If we have run for you before, " +
+          "you would be the first &mdash; and we would be grateful for it.</p>" +
+        "</div>";
+      return;
+    }
+
+    grid.innerHTML = rows.map(function (r) {
+      var initial = esc((r.name || "?").trim().charAt(0).toUpperCase());
+      var when = "";
+      try {
+        when = new Date(r.created_at).toLocaleDateString("en-GB",
+          { month: "short", year: "numeric" });
+      } catch (e) {}
+      return '<figure class="review-card">' +
+          starRow(r.rating) +
+          "<blockquote>" + esc(r.body) + "</blockquote>" +
+          "<figcaption>" +
+            '<span class="review-avatar" aria-hidden="true">' + initial + "</span>" +
+            '<span class="review-who">' +
+              "<b>" + esc(r.name) + "</b>" +
+              "<small>" + esc(r.service) + (when ? " &middot; " + when : "") + "</small>" +
+            "</span>" +
+          "</figcaption>" +
+        "</figure>";
+    }).join("");
+
+    // average rating summary
+    var sum = rows.reduce(function (a, r) { return a + (Number(r.rating) || 0); }, 0);
+    var avg = sum / rows.length;
+    var box = document.getElementById("reviewSummary");
+    if (box) {
+      document.getElementById("reviewAvg").textContent = avg.toFixed(1);
+      document.getElementById("reviewAvgStars").innerHTML =
+        "\u2605".repeat(Math.round(avg)) +
+        '<span style="opacity:.3">' + "\u2605".repeat(5 - Math.round(avg)) + "</span>";
+      document.getElementById("reviewCount").textContent =
+        "Based on " + rows.length + (rows.length === 1 ? " review" : " reviews");
+      box.hidden = false;
+    }
+  }
+
+  function load() {
+    var q = "?select=name,rating,service,body,created_at" +
+            "&approved=eq.true&order=created_at.desc&limit=12";
+    fetch(REST + q, { headers: HEAD })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        grid.innerHTML =
+          '<div class="review-empty"><p>Reviews could not be loaded right now. ' +
+          "Please try again shortly.</p></div>";
+      });
+  }
+  load();
+
+  /* ---------- submit ---------- */
+  if (!form) return;
+
+  function say(msg, kind) {
+    status.textContent = msg;
+    status.classList.toggle("is-error", kind === "error");
+    status.classList.toggle("is-success", kind === "ok");
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    var name = document.getElementById("reviewName").value.trim();
+    var svc  = document.getElementById("reviewService").value;
+    var body = document.getElementById("reviewBody").value.trim();
+    var trap = document.getElementById("reviewTrap").value;
+
+    if (trap) return;                               // bot
+
+    if (!rating)          { say("Please choose a star rating.", "error"); return; }
+    if (name.length < 2)  { say("Please add your name.", "error"); return; }
+    if (!svc)             { say("Please choose what we did for you.", "error"); return; }
+    if (body.length < 10) { say("Please write a little more in your review.", "error"); return; }
+
+    if (Date.now() - openedAt < 4000) {             // filled impossibly fast
+      say("Take a moment to look it over, then submit again.", "error");
+      return;
+    }
+
+    submit.disabled = true;
+    say("Sending\u2026");
+
+    fetch(REST, {
+      method: "POST",
+      headers: Object.assign({}, HEAD, {
+        "Content-Type": "application/json",
+        Prefer: "return=minimal"
+      }),
+      body: JSON.stringify({ name: name, rating: rating, service: svc, body: body })
+    })
+      .then(function (r) {
+        if (r.ok) {
+          form.innerHTML =
+            '<div class="review-thanks">' +
+              "<h3>Thank you</h3>" +
+              "<p>Your review has been sent to us. We check every review before " +
+              "it goes on the site, so give us a day and look out for it here.</p>" +
+            "</div>";
+          return;
+        }
+        return r.json().then(function (err) { throw new Error((err && err.message) || r.status); });
+      })
+      .catch(function (err) {
+        submit.disabled = false;
+        var m = String(err.message || "");
+        if (/already been submitted/i.test(m))      say("Looks like that review was already sent. Thank you!", "error");
+        else if (/Links are not allowed/i.test(m))  say("Please remove any web links from your review.", "error");
+        else if (/Too many/i.test(m))               say("We are getting a lot of reviews right now. Please try again a bit later.", "error");
+        else                                        say("Sorry, that did not send. Please try again, or email info@quickruns.ky.", "error");
+      });
   });
 })();
 </script>
