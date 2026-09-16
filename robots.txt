@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://quickruns.ky/sitemap.xml
+Sitemap: https://www.quickruns.ky/sitemap.xml
