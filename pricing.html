@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Quick Runs Cayman courier route membership plans — unlimited island-wide delivery, one flat monthly rate. Basic, Standard, and Premium plans for Grand Cayman.">
+<meta name="description" content="Quick Runs Cayman courier route membership plans — unlimited island-wide delivery, one flat monthly rate. Basic and Standard plans for Grand Cayman.">
 <link rel="canonical" href="https://www.quickruns.ky/pricing" />
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Quick Runs Cayman">
 <meta property="og:locale" content="en_KY">
 <meta property="og:title" content="Membership Pricing | Quick Runs Cayman">
-<meta property="og:description" content="Island courier route membership — unlimited island-wide delivery for one flat monthly rate. Basic, Standard and Premium plans for Grand Cayman.">
+<meta property="og:description" content="Island courier route membership — unlimited island-wide delivery for one flat monthly rate. Basic and Standard plans for Grand Cayman.">
 <meta property="og:url" content="https://www.quickruns.ky/pricing">
 <meta property="og:image" content="https://www.quickruns.ky/og-image.jpg">
 <meta property="og:image:secure_url" content="https://www.quickruns.ky/og-image.jpg">
@@ -19,7 +19,7 @@
 <meta property="og:image:alt" content="Quick Runs Cayman — concierge services across Grand Cayman">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Membership Pricing | Quick Runs Cayman">
-<meta name="twitter:description" content="Island courier route membership — unlimited island-wide delivery for one flat monthly rate. Basic, Standard and Premium plans for Grand Cayman.">
+<meta name="twitter:description" content="Island courier route membership — unlimited island-wide delivery for one flat monthly rate. Basic and Standard plans for Grand Cayman.">
 <meta name="twitter:image" content="https://www.quickruns.ky/og-image.jpg">
 <meta name="twitter:image:alt" content="Quick Runs Cayman — concierge services across Grand Cayman">
 
@@ -214,8 +214,11 @@
   /* TIERS */
   .tiers {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
   }
   .tier {
     background: white;
@@ -611,8 +614,8 @@
       <span class="why-label">Island Coverage</span>
     </div>
     <div class="why-item">
-      <span class="why-num">1hr</span>
-      <span class="why-label">Premium Response</span>
+      <span class="why-num">2hr</span>
+      <span class="why-label">Priority Response</span>
     </div>
     <div class="why-item">
       <span class="why-num">2</span>
@@ -629,7 +632,7 @@
       <div>
         <div class="founder-banner-kicker">Founding Member Offer</div>
         <div class="founder-banner-title">The first 10 members get <span>10% off</span> any tier they choose.</div>
-        <div class="founder-banner-sub">Basic, Standard, Premium or a Corporate quote &mdash; the founding rate applies to your first two months. <a href="/terms" style="color:#fff;text-decoration:underline;">See terms</a>.</div>
+        <div class="founder-banner-sub">Basic, Standard or a Corporate quote &mdash; the founding rate applies to your first two months. <a href="/terms" style="color:#fff;text-decoration:underline;">See terms</a>.</div>
       </div>
       <div class="founder-counter" id="founderCounter">
         <div class="founder-counter-num" id="founderSpots">10</div>
@@ -703,13 +706,13 @@
         <div class="tier-tag">The everyday professional's pass — same-day flexibility.</div>
         <div class="tier-price">
           <span class="tier-currency">CI$</span>
-          <span class="tier-amount">299<sup style="font-size: 0.4em;">.99</sup></span>
+          <span class="tier-amount">269<sup style="font-size: 0.4em;">.99</sup></span>
         </div>
         <div class="tier-period">per month</div>
         <div class="tier-founder">
           <span class="tier-founder-label">Founding member &middot; 10% off</span>
-          <span class="tier-founder-price">CI$269.99<small>/mo</small></span>
-          <span class="tier-founder-was">CI$299.99</span>
+          <span class="tier-founder-price">CI$242.99<small>/mo</small></span>
+          <span class="tier-founder-was">CI$269.99</span>
         </div>
         <ul class="tier-features">
           <li><strong>Unlimited</strong> deliveries</li>
@@ -723,33 +726,6 @@
         </ul>
       </div>
 
-      <!-- PREMIUM -->
-      <div class="tier">
-        <div class="tier-medal">🥇</div>
-        <h3 class="tier-name">PREMIUM</h3>
-        <div class="tier-tag">The executive's pass — a personal courier on retainer.</div>
-        <div class="tier-price">
-          <span class="tier-currency">CI$</span>
-          <span class="tier-amount">399<sup style="font-size: 0.4em;">.99</sup></span>
-        </div>
-        <div class="tier-period">per month</div>
-        <div class="tier-founder">
-          <span class="tier-founder-label">Founding member &middot; 10% off</span>
-          <span class="tier-founder-price">CI$359.99<small>/mo</small></span>
-          <span class="tier-founder-was">CI$399.99</span>
-        </div>
-        <ul class="tier-features">
-          <li><strong>Unlimited</strong> deliveries — scheduled, same-day, or urgent</li>
-          <li class="highlight"><strong>1-hour response</strong> guaranteed</li>
-          <li>Dedicated WhatsApp line</li>
-          <li>Signature capture on every delivery</li>
-          <li>Package storage up to 5 days</li>
-          <li>White-glove handling · fragile / oversize</li>
-          <li>Monthly report + quarterly review call</li>
-          <li>Consolidated business invoice</li>
-          <li><strong>Founder-backed SLA</strong> — if we miss, one of us shows up personally</li>
-        </ul>
-      </div>
 
     </div>
 
@@ -820,7 +796,6 @@
           <th>Feature</th>
           <th>Basic</th>
           <th>Standard</th>
-          <th>Premium</th>
         </tr>
       </thead>
       <tbody>
@@ -828,85 +803,61 @@
           <td><strong>Monthly deliveries</strong></td>
           <td>Unlimited</td>
           <td>Unlimited</td>
-          <td>Unlimited</td>
         </tr>
         <tr>
           <td><strong>Booking notice</strong></td>
           <td>24 hours</td>
           <td>Same-day</td>
-          <td>On-demand</td>
         </tr>
         <tr>
           <td><strong>Response time</strong></td>
           <td>Next day</td>
           <td>Same-day route</td>
-          <td>1 hour guaranteed</td>
         </tr>
         <tr>
           <td><strong>Guaranteed slot</strong></td>
           <td class="check-no">Best-effort</td>
-          <td class="check-yes">✓</td>
           <td class="check-yes">✓</td>
         </tr>
         <tr>
           <td><strong>Delivery confirmation</strong></td>
           <td>Photo</td>
           <td>Photo + signature</td>
-          <td>Photo + signature</td>
         </tr>
         <tr>
           <td><strong>WhatsApp support</strong></td>
           <td>Shared line</td>
           <td>Priority response</td>
-          <td>Dedicated line</td>
         </tr>
         <tr>
           <td><strong>Urgent / same-hour requests</strong></td>
           <td>Available on request</td>
           <td>Available on request</td>
-          <td class="check-yes">Included · Unlimited</td>
         </tr>
         <tr>
           <td><strong>Package storage</strong></td>
           <td class="check-no">—</td>
           <td>Up to 48 hrs</td>
-          <td>Up to 5 days</td>
         </tr>
         <tr>
           <td><strong>Schedule changes</strong></td>
           <td>Pay per change</td>
           <td>1 free / month</td>
-          <td>Unlimited</td>
         </tr>
         <tr>
           <td><strong>Monthly reporting</strong></td>
           <td>Delivery log</td>
           <td>Usage summary</td>
-          <td>Full performance report</td>
-        </tr>
-        <tr>
-          <td><strong>Quarterly review call</strong></td>
-          <td class="check-no">—</td>
-          <td class="check-no">—</td>
-          <td class="check-yes">✓</td>
         </tr>
         <tr>
           <td><strong>Consolidated invoice</strong></td>
           <td class="check-no">—</td>
           <td>Optional</td>
-          <td class="check-yes">✓ Included</td>
-        </tr>
-        <tr>
-          <td><strong>Service credit if we miss SLA</strong></td>
-          <td class="check-no">—</td>
-          <td class="check-no">—</td>
-          <td class="check-yes">✓</td>
         </tr>
         <tr style="background: #fff5f5; font-weight: 700;">
           <td>Monthly price</td>
           <td>CI$179.99</td>
-          <td>CI$299.99</td>
-          <td>CI$399.99</td>
+          <td>CI$269.99</td>
         </tr>
       </tbody>
     </table>
